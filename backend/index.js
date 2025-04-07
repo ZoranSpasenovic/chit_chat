@@ -6,6 +6,7 @@ const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 const app = express();
+app.use(express.json());
 db();
 app.use(authRoutes);
 const PORT = process.env.PORT || 5001;
