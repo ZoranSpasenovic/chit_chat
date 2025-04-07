@@ -1,6 +1,7 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const { generateToken, deleteToken } = require("../utils/token");
+const cloudinary = require("../lib/cloudinary");
 
 const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -63,8 +64,34 @@ const logout = (req, res) => {
   deleteToken(res);
 };
 
-const updateProfile = (req, res) => {
-  
+const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    const userId = req.user._id;
+
+    if (!profilePic)
+      return res.status(400).json({ message: "Profile Pic is not provided" });
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        profilePic: uploadResponse.secure_url,
+      },
+      { new: true }
+    );
+    return res.status(200).json({ message: "Profile picture is updated" });
+  } catch (err) {
+    return res.status(500).json({ message: "Internal Server error" });
+  }
+};
+
+const checkAuth = (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (err) {
+    return res.status(400).json({ message: "User not autorized" });
+  }
 };
 
 module.exports = {
@@ -72,4 +99,5 @@ module.exports = {
   login,
   logout,
   updateProfile,
+  checkAuth,
 };

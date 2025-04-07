@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
-import User from "../models/userModel";
+const User = require("../models/userModel");
 
 const protect = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
     if (!token)
       return res.status(400).json({ message: "User not authorized!" });
-    const decoded = jwt.verify(token, JWT_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_KEY);
     if (!decoded)
       return res.status(400).json({ message: "User is not authorized!" });
     const user = await User.findById(decoded.userId).select("-password");
@@ -15,6 +15,7 @@ const protect = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Internal Server Error!" });
   }
 };
