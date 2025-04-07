@@ -14,4 +14,19 @@ const generateToken = (userId, res) => {
   return token;
 };
 
-module.exports = generateToken;
+const deleteToken = (res) => {
+  try {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      maxAge: 0,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+  } catch (err) {
+    return res.status(400).json({ message: "Internal Server Error" });
+  }
+
+  return res.status(200).json({ message: "Logged out successfully" });
+};
+
+module.exports = { generateToken, deleteToken };

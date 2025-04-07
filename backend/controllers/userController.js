@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const generateToken = require("../utils/token");
+const { generateToken, deleteToken } = require("../utils/token");
 
 const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -42,9 +42,26 @@ const signup = async (req, res) => {
   }
 };
 
-const login = (req, res) => {};
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "User not found!" });
 
-const logout = (req, res) => {};
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.status(400).json({ message: "Password is not correct!" });
+
+    generateToken(user._id, res);
+  } catch (err) {
+    return res.status(400).json({ message: "Internal server Error!" });
+  }
+  return res.status(201).json({ message: "Login Succesful!" });
+};
+
+const logout = (req, res) => {
+  deleteToken(res);
+};
 
 module.exports = {
   signup,
