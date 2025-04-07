@@ -63,8 +63,13 @@ const logout = (req, res) => {
   deleteToken(res);
 };
 
+const updateProfile = (req, res) => {
+  
+};
+
 module.exports = {
   signup,
   login,
   logout,
+  updateProfile,
 };
