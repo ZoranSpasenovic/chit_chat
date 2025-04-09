@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
+import useRedirect from "../hooks/useRedirect";
 
 const ProfilePage = () => {
-  return (
-    <div>ProfilePage</div>
-  )
-}
+  useRedirect();
+  return <div>ProfilePage</div>;
+};
 
-export default ProfilePage
+export default ProfilePage;
