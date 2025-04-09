@@ -1,2 +1,40 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: cupcake, retro, luxury, caramellatte;
+}
+
+@plugin "daisyui/theme" {
+    name: "light";
+    default: false;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(96% 0.016 293.756);
+    --color-base-200: oklch(94% 0.029 294.588);
+    --color-base-300: oklch(89% 0.057 293.283);
+    --color-base-content: oklch(38% 0.189 293.745);
+    --color-primary: oklch(79% 0.209 151.711);
+    --color-primary-content: oklch(26% 0.065 152.934);
+    --color-secondary: oklch(0% 0 0);
+    --color-secondary-content: oklch(100% 0 0);
+    --color-accent: oklch(74% 0.16 232.661);
+    --color-accent-content: oklch(29% 0.066 243.157);
+    --color-neutral: oklch(49% 0.27 292.581);
+    --color-neutral-content: oklch(96% 0.016 293.756);
+    --color-info: oklch(58% 0.158 241.966);
+    --color-info-content: oklch(97% 0.013 236.62);
+    --color-success: oklch(60% 0.118 184.704);
+    --color-success-content: oklch(98% 0.014 180.72);
+    --color-warning: oklch(64% 0.222 41.116);
+    --color-warning-content: oklch(98% 0.016 73.684);
+    --color-error: oklch(57% 0.245 27.325);
+    --color-error-content: oklch(97% 0.013 17.38);
+    --radius-selector: 0.5rem;
+    --radius-field: 2rem;
+    --radius-box: 1rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 2px;
+    --depth: 1;
+    --noise: 1;
+  }
+  
