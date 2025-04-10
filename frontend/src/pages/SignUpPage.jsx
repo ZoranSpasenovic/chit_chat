@@ -15,8 +15,7 @@ const SignUpPage = () => {
     const data = new FormData(formRef.current);
     const formData = Object.fromEntries(data);
 
-    const res = await signup(formData);
-    console.log(res);
+    await signup(formData);
 
     formRef.current.reset();
   };

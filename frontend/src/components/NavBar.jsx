@@ -38,7 +38,7 @@ const NavBar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link className="justify-between">
+              <Link to="/profile" className="justify-between">
                 Profile
                 <span>
                   <User />
@@ -46,7 +46,7 @@ const NavBar = () => {
               </Link>
             </li>
             <li>
-              <Link className="justify-between">
+              <Link to="/settings" className="justify-between">
                 Settings
                 <span>
                   <Settings />
