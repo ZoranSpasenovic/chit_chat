@@ -11,7 +11,7 @@ const useAuthStore = create((set) => ({
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get("/auth/check");
-      console.log(res.data)
+      console.log(res.data);
       set({ user: res.data });
     } catch (err) {
       console.log(err);
@@ -40,6 +40,14 @@ const useAuthStore = create((set) => ({
       console.log("LOGIN ERR: " + err);
     } finally {
       set({ isLogingIn: false });
+    }
+  },
+  logout: async () => {
+    try {
+      const res = await axiosInstance.post("/auth/logout");
+      return res;
+    } catch (err) {
+      console.log("LOGOUT ERR: " + err);
     }
   },
 }));

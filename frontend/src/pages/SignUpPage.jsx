@@ -1,8 +1,15 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import useAuthStore from "../store/useStore";
+import { Link } from "react-router-dom";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 
 const SignUpPage = () => {
   const { signup } = useAuthStore();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleShowPassword = () => [setShowPassword((prevState) => !prevState)];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(formRef.current);
@@ -22,48 +29,80 @@ const SignUpPage = () => {
         <form
           ref={formRef}
           onSubmit={handleSubmit}
-          className="w-80 bg-base-100 p-4 rounded-lg"
+          className="w-80 bg-base-100 p-4 rounded-lg mt-6"
         >
+          <div className="form-control text-center flex flex-col items-center text-secondary p-2 ">
+            <div className="">
+              <User className="size-5 text-base-content/40" />
+            </div>
+            <h1>Create an Account</h1>
+          </div>
           <div className="form-control mb-4 flex flex-col gap-2">
             <label className="label">
               <span className="label-text">Full Name</span>
             </label>
-            <input
-              name="fullName"
-              type="text"
-              placeholder="Enter your full name"
-              className="input input-bordered w-full "
-            />
+            <div className="relative">
+              <User className="absolute z-10 left-2 top-2 text-base-content/55" />
+              <input
+                placeholder="Enter your Full Name"
+                name="fullName"
+                type="text"
+                className="input input-bordered w-full pl-10 "
+              />
+            </div>
           </div>
 
           <div className="form-control mb-4 flex flex-col gap-2">
             <label className="label">
               <span className="label-text">Email</span>
             </label>
-            <input
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              className="input input-bordered w-full"
-            />
+            <div className="relative">
+              <Mail className="absolute z-10 left-2 top-2 text-base-content/55" />
+              <input
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                className="input input-bordered w-full pl-10"
+              />
+            </div>
           </div>
 
           <div className="form-control mb-4 flex flex-col gap-2">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
-            <input
-              name="password"
-              type="password"
-              placeholder="Enter your password"
-              className="input input-bordered w-full "
-            />
+            <div className="relative">
+              <Lock className="absolute left-2 top-2 z-10 text-base-content/55" />
+              <button
+                type="button"
+                onClick={handleShowPassword}
+                className="absolute right-2 top-2 z-10"
+              >
+                {showPassword ? (
+                  <EyeOff className="z-10 text-base-content/55 hover:cursor-pointer" />
+                ) : (
+                  <Eye className="z-10 text-base-content/55 hover:cursor-pointer" />
+                )}
+              </button>
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                className="input input-bordered w-full pl-10 pr-10 "
+              />
+            </div>
           </div>
 
           <div className="flex justify-end">
             <button type="submit" className="btn btn-secondary">
-              Submit
+              Sign Up
             </button>
+          </div>
+          <div className="flex gap-4 mt-4">
+            <p>Already have an account ?</p>
+            <Link className="link" to="/login">
+              Login
+            </Link>
           </div>
         </form>
       </div>
