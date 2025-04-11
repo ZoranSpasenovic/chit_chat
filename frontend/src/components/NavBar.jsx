@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import useAuthStore from "../store/useStore";
 import { useNavigate } from "react-router-dom";
 import { User, LogOutIcon, Settings } from "lucide-react";
+import ThemeDropDown from "./ThemeDropDown"
 
 const NavBar = () => {
-  const { logout } = useAuthStore();
+  const { logout, user } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -15,11 +16,12 @@ const NavBar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 shadow-sm fixed">
+    <div className="navbar bg-base-100 shadow-sm fixed z-1">
       <div className="flex-1">
         <Link className="btn btn-ghost text-xl">Chit Chat</Link>
       </div>
       <div className="flex-none">
+        <ThemeDropDown />
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -29,7 +31,11 @@ const NavBar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="/avatars/no-profile.jpg"
+                src={
+                  user?.profilePic
+                    ? user.profilePic
+                    : "/avatars/no-profile.webp"
+                }
               />
             </div>
           </div>
