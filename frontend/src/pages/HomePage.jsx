@@ -8,11 +8,13 @@ import ChatContainer from "../components/ChatContainer";
 
 const HomePage = () => {
   const isCheckingAuth = useRedirect();
-  const { users, getUsers, selectedUser } = useChatStore();
+  const { getUsers, selectedUser } = useChatStore();
   useEffect(() => {
     getUsers();
   }, [getUsers]);
-  console.log(users);
+
+  console.log(selectedUser)
+
   if (isCheckingAuth)
     return (
       <div className="flex items-center justify-center h-screen">
@@ -25,7 +27,7 @@ const HomePage = () => {
       <div className="flex items-center justify-center pt-20 px-4">
         <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-6xl h-[calc(100vh-8rem)]">
           <div className="flex h-full rounded-lg overflow-hidden ">
-            <SideBar users={users} />
+            <SideBar />
             {selectedUser ? <ChatContainer /> : <NoChat />}
           </div>
         </div>
