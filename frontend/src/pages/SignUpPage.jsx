@@ -1,10 +1,12 @@
 import { useRef, useState } from "react";
 import useAuthStore from "../store/useStore";
 import { Link } from "react-router-dom";
-import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react"
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const { signup } = useAuthStore();
+  const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -16,7 +18,7 @@ const SignUpPage = () => {
     const formData = Object.fromEntries(data);
 
     await signup(formData);
-
+    navigate("/")
     formRef.current.reset();
   };
 

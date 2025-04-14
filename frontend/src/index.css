@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: cupcake, retro, luxury, caramellatte;
+  themes: cupcake, retro, luxury, caramellatte, dracula, coffee;
 }
 
 @plugin "daisyui/theme" {

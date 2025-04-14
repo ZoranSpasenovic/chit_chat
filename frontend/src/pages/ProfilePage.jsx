@@ -38,7 +38,7 @@ const ProfilePage = () => {
             <div className="relative z-0">
               <img
                 src={
-                  selectedImg || user?.profilePic || "/avatars/no-profile.png"
+                  selectedImg || user?.profilePic || "/avatars/no-profile.jfif"
                 }
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
