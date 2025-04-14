@@ -34,7 +34,7 @@ const NavBar = () => {
                 src={
                   user?.profilePic
                     ? user.profilePic
-                    : "/avatars/no-profile.webp"
+                    : "/avatars/no-profile.jfif"
                 }
               />
             </div>
