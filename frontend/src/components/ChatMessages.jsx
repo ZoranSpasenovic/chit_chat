@@ -29,7 +29,7 @@ const ChatMessages = () => {
     <div className="flex-1 overflow-y-auto pb-8">
       {messages.map((msg) => {
         const isSent = msg.receiverId === selectedUser._id;
-        const profilePic = isSent ? user.profilePic : selectedUser.profilePic;
+        const profilePic = isSent ? user?.profilePic : selectedUser.profilePic;
 
         return (
           <div key={msg._id} className={`chat ${isSent ? "chat-end" : "chat-start"}`}>
