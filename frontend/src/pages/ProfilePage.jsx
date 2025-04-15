@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useRedirect from "../hooks/useRedirect";
 import { Camera, User, Mail } from "lucide-react";
-import useAuthStore from "../store/useStore";
+import useAuthStore from "../store/useAuthStore";
 
 const ProfilePage = () => {
   useRedirect();

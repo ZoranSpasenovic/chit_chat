@@ -27,7 +27,7 @@ const SideBar = () => {
               onClick={() => {
                 selectUser(user);
               }}
-              className={`list-row hover:cursor-pointer hover:bg-base-200 ${selectedUser._id === user._id ? "bg-base-200" : "*:"}`}
+              className={`list-row hover:cursor-pointer hover:bg-base-200 ${selectedUser?._id === user._id ? "bg-base-200" : "*:"}`}
               key={user._id}
             >
               <div>

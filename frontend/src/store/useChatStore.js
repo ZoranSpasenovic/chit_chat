@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 
-const useChatStore = create((set) => ({
+const useChatStore = create((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -11,7 +11,7 @@ const useChatStore = create((set) => ({
     set({ isUsersLoading: true });
     try {
       const res = await axiosInstance.get("/messages/users");
-      console.log(res.data);
+
       set({ users: res.data });
     } catch (err) {
       console.log("Error loading users: " + err);
@@ -21,14 +21,28 @@ const useChatStore = create((set) => ({
   },
   getMessages: async (id) => {
     set({ isMessagesLoading: true });
-
     try {
       const res = await axiosInstance.get(`/messages/${id}`);
-      return res;
+      set({ messages: res.data });
     } catch (err) {
       console.log("Error fetching messages: " + err);
     } finally {
       set({ isMessagesLoading: false });
+    }
+  },
+  sendMessage: async (data) => {
+    const { selectedUser, messages } = get();
+
+    try {
+      const res = await axiosInstance.post(
+        `/messages/send/${selectedUser._id}`,
+        data
+      );
+
+      set({ messages: [...messages, res.data] });
+      console.log(res);
+    } catch (err) {
+      console.log("Sending message failed: " + err);
     }
   },
   selectUser: (selectedUser) => {

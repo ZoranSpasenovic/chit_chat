@@ -13,8 +13,6 @@ const HomePage = () => {
     getUsers();
   }, [getUsers]);
 
-  console.log(selectedUser)
-
   if (isCheckingAuth)
     return (
       <div className="flex items-center justify-center h-screen">

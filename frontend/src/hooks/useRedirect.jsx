@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useAuthStore from "../store/useStore";
+import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 
 const useRedirect = () => {

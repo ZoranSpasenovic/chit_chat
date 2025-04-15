@@ -1,6 +1,6 @@
 import React from "react";
 import { useRef, useState } from "react";
-import useAuthStore from "../store/useStore";
+import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";

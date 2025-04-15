@@ -23,6 +23,7 @@ const getMessages = async (req, res) => {
         { senderId: receiverId, receiverId: senderId },
       ],
     });
+    res.status(201).json(messages);
   } catch (err) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
@@ -33,6 +34,7 @@ const sendMessage = async (req, res) => {
     const { text, image } = req.body;
     const receiverId = req.params.id;
     const senderId = req.user._id;
+
 
     let imageUrl;
     if (image) {

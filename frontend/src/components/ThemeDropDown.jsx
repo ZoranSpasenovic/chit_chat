@@ -20,7 +20,6 @@ const ThemeDropDown = () => {
                 className="justify-between"
                 onClick={() => {
                   setTheme(theme.toLowerCase());
-                  console.log(theme.toLowerCase());
                 }}
               >
                 {theme}
