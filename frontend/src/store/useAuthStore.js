@@ -3,7 +3,8 @@ import { axiosInstance } from "../lib/axios";
 import { toast } from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = "http://localhost:5001";
+const BASE_URL =
+  import.meta.env.MODE === "production" ? "/" : "http://localhost:5001";
 
 const useAuthStore = create((set, get) => ({
   user: null,
@@ -58,6 +59,7 @@ const useAuthStore = create((set, get) => ({
   logout: async () => {
     try {
       const res = await axiosInstance.post("/auth/logout");
+      set({ user: null });
       toast.success("logged out successfully");
       get().disconnectSocket();
       return res;
