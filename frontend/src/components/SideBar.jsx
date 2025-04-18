@@ -11,10 +11,22 @@ const SideBar = () => {
   const { users, selectUser, selectedUser } = useChatStore();
   const { onlineUsers } = useAuthStore();
 
-  console.log(onlineUsers);
+  const sortedUsers = users.sort((a, b) => {
+    if (onlineUsers.includes(a._id) && !onlineUsers.includes(b._id)) {
+      return -1;
+    } else if (!onlineUsers.includes(a._id) && onlineUsers.includes(b._id)) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 
   return (
-    <div className="w-2xs h-full overflow-y-auto">
+    <div
+      className={`${
+        selectedUser ? "hidden" : ""
+      } flex-1 lg:flex-none lg:block h-full overflow-y-auto`}
+    >
       <div className="pl-4 pt-4 space-y-2">
         <div className=" flex gap-2">
           <Users2 />
@@ -32,15 +44,15 @@ const SideBar = () => {
       </div>
 
       <ul className="list mt-4">
-        {users.map((user) => {
+        {sortedUsers.map((user) => {
           if (showOnlineUsers && !onlineUsers.includes(user._id)) return;
           return (
             <li
               onClick={() => {
                 selectUser(user);
               }}
-              className={`list-row hover:cursor-pointer hover:bg-base-200 ${
-                selectedUser?._id === user._id ? "bg-base-200" : "*:"
+              className={`list-row hover:cursor-pointer hover:bg-base-200 pr-4 ${
+                selectedUser?._id === user._id ? "bg-base-200" : ""
               }`}
               key={user._id}
             >

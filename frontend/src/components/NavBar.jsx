@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
-import { User, LogOutIcon, Settings } from "lucide-react";
-import ThemeDropDown from "./ThemeDropDown"
+import { User, LogOutIcon, LogInIcon } from "lucide-react";
+import ThemeDropDown from "./ThemeDropDown";
 
 const NavBar = () => {
   const { logout, user } = useAuthStore();
@@ -51,21 +51,23 @@ const NavBar = () => {
                 </span>
               </Link>
             </li>
+
             <li>
-              <Link to="/settings" className="justify-between">
-                Settings
-                <span>
-                  <Settings />
-                </span>
-              </Link>
-            </li>
-            <li>
-              <button className="justify-between" onClick={handleLogout}>
-                Logout
-                <span>
-                  <LogOutIcon />
-                </span>
-              </button>
+              {user ? (
+                <button className="justify-between" onClick={handleLogout}>
+                  Logout
+                  <span>
+                    <LogOutIcon />
+                  </span>
+                </button>
+              ) : (
+                <Link className="justify-between">
+                  Login
+                  <span>
+                    <LogInIcon />
+                  </span>
+                </Link>
+              )}
             </li>
           </ul>
         </div>

@@ -37,6 +37,7 @@ const ChatMessages = () => {
   return (
     <div className="flex-1 overflow-y-auto pb-8">
       {messages.map((msg) => {
+        console.log(msg);
         const isSent = msg.receiverId === selectedUser._id;
         const profilePic = isSent ? user?.profilePic : selectedUser.profilePic;
 
@@ -58,10 +59,24 @@ const ChatMessages = () => {
                 {formatTime(msg.createdAt)}
               </time>
             </div>
-            <div className={`chat-bubble ${isSent && "bg-primary"}`}>
-              {msg.text}
-            </div>
-            {/* <div className="chat-footer opacity-50">Delivered</div> */}
+            {msg.text && (
+              <div
+                className={`chat-bubble ${
+                  isSent && "bg-primary text-base-100"
+                }`}
+              >
+                {msg.text}
+              </div>
+            )}
+            {msg.image && (
+              <div className="w-48 rounded-lg m -4">
+                <img
+                  className="w-full h-auto"
+                  src={msg.image}
+                  alt="image could not render"
+                />
+              </div>
+            )}
           </div>
         );
       })}
