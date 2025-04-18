@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 
+import useAuthStore from "./useAuthStore";
+
 const useChatStore = create((set, get) => ({
   messages: [],
   users: [],
@@ -40,13 +42,31 @@ const useChatStore = create((set, get) => ({
       );
 
       set({ messages: [...messages, res.data] });
-      console.log(res);
     } catch (err) {
       console.log("Sending message failed: " + err);
     }
   },
   selectUser: (selectedUser) => {
     set({ selectedUser });
+  },
+  updateMessages: () => {
+    const { selectedUser } = get();
+
+    if (!selectedUser) return;
+
+    const socket = useAuthStore.getState().socket;
+
+    socket.off("receiveMessage");
+    socket.on("receiveMessage", (newMessage) => {
+      if (newMessage.senderId !== selectedUser._id) return;
+      set((state) => ({
+        messages: [...state.messages, newMessage],
+      }));
+    });
+  },
+  leaveChat: () => {
+    const socket = useAuthStore.getState().socket;
+    socket.off("receiveMessage");
   },
 }));
 

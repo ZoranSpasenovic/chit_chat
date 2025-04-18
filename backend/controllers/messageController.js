@@ -1,6 +1,7 @@
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 const cloudinary = require("../lib/cloudinary");
+const { getReceiverId, io } = require("../lib/socket");
 
 const getUsersForSideBar = async (req, res) => {
   try {
@@ -35,7 +36,6 @@ const sendMessage = async (req, res) => {
     const receiverId = req.params.id;
     const senderId = req.user._id;
 
-
     let imageUrl;
     if (image) {
       const uploadResponse = await cloudinary.uploader.upload(image);
@@ -48,9 +48,15 @@ const sendMessage = async (req, res) => {
       image: imageUrl,
     });
     await newMessage.save();
+    const receiverSocketId = getReceiverId(receiverId);
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("receiveMessage", newMessage);
+    }
 
     res.status(200).json(newMessage);
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

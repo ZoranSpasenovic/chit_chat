@@ -1,8 +1,18 @@
 import useChatStore from "../store/useChatStore";
+import useAuthStore from "../store/useAuthStore";
 import { Users2 } from "lucide-react";
+import { useState } from "react";
 
 const SideBar = () => {
+  const [showOnlineUsers, setShowOnlineUsers] = useState(false);
+  const handleChange = (e) => {
+    setShowOnlineUsers(e.target.checked);
+  };
   const { users, selectUser, selectedUser } = useChatStore();
+  const { onlineUsers } = useAuthStore();
+
+  console.log(onlineUsers);
+
   return (
     <div className="w-2xs h-full overflow-y-auto">
       <div className="pl-4 pt-4 space-y-2">
@@ -12,6 +22,7 @@ const SideBar = () => {
         </div>
         <div className="flex gap-2">
           <input
+            onChange={handleChange}
             type="checkbox"
             className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:bg-primary checked:border-primary transition-all cursor-pointer"
           />
@@ -22,12 +33,15 @@ const SideBar = () => {
 
       <ul className="list mt-4">
         {users.map((user) => {
+          if (showOnlineUsers && !onlineUsers.includes(user._id)) return;
           return (
             <li
               onClick={() => {
                 selectUser(user);
               }}
-              className={`list-row hover:cursor-pointer hover:bg-base-200 ${selectedUser?._id === user._id ? "bg-base-200" : "*:"}`}
+              className={`list-row hover:cursor-pointer hover:bg-base-200 ${
+                selectedUser?._id === user._id ? "bg-base-200" : "*:"
+              }`}
               key={user._id}
             >
               <div>
@@ -44,6 +58,13 @@ const SideBar = () => {
                 <div>{user.fullName}</div>
                 <div className="text-xs font-semibold opacity-60">
                   {user.email}
+                </div>
+                <div
+                  className={`text-xs ${
+                    onlineUsers.includes(user._id) ? "text-primary" : ""
+                  }`}
+                >
+                  {onlineUsers.includes(user._id) ? "online" : "offline"}
                 </div>
               </div>
             </li>

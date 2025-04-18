@@ -5,18 +5,27 @@ import formatTime from "../utils/formatTime";
 import { useRef } from "react";
 
 const ChatMessages = () => {
-  const { getMessages, selectedUser, isMessagesLoading, messages } =
-    useChatStore();
+  const {
+    getMessages,
+    selectedUser,
+    isMessagesLoading,
+    messages,
+    updateMessages,
+    leaveChat,
+  } = useChatStore();
 
   const { user } = useAuthStore();
 
   useEffect(() => {
     const fetchMessages = async () => {
       await getMessages(selectedUser._id);
+      updateMessages();
     };
     fetchMessages();
-  }, [getMessages, selectedUser]);
-  console.log(selectedUser);
+    return () => {
+      leaveChat();
+    };
+  }, [getMessages, selectedUser, updateMessages, leaveChat]);
 
   const scrollRef = useRef();
   useEffect(() => {
@@ -32,7 +41,10 @@ const ChatMessages = () => {
         const profilePic = isSent ? user?.profilePic : selectedUser.profilePic;
 
         return (
-          <div key={msg._id} className={`chat ${isSent ? "chat-end" : "chat-start"}`}>
+          <div
+            key={msg._id}
+            className={`chat ${isSent ? "chat-end" : "chat-start"}`}
+          >
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
