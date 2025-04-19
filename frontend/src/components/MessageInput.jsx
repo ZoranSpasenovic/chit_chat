@@ -131,14 +131,10 @@ const MessageInput = () => {
           </button>
         </div>
       </form>
-      <div className="absolute bottom-12 right-0">
+      <div className="absolute bottom-12 -right-8 md:bottom-12 md:right-36">
         {showPicker && (
           <div ref={emojiRef}>
-            <EmojiPicker
-              reactionsDefaultOpen={true}
-              onReactionClick={handleEmojiClick}
-              onEmojiClick={handleEmojiClick}
-            />
+            <EmojiPicker onEmojiClick={handleEmojiClick} />
           </div>
         )}
       </div>
