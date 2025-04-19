@@ -134,7 +134,12 @@ const MessageInput = () => {
       <div className="absolute bottom-12 -right-8 md:bottom-12 md:right-36">
         {showPicker && (
           <div ref={emojiRef}>
-            <EmojiPicker onEmojiClick={handleEmojiClick} />
+            <EmojiPicker
+              className="[--epr-emoji-size:1rem]
+    sm:[--epr-emoji-size:1.5rem]
+    md:[--epr-emoji-size:2rem]"
+              onEmojiClick={handleEmojiClick}
+            />
           </div>
         )}
       </div>

@@ -37,4 +37,7 @@
     --depth: 1;
     --noise: 1;
   }
+  .emoji-picker-react input[type="search"] {
+    display: none !important;
+  }
   
