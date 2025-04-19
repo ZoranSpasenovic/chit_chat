@@ -1,13 +1,40 @@
-import { Image, Send, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { Image, Send, X, Smile } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import useChatStore from "../store/useChatStore";
+import EmojiPicker from "emoji-picker-react";
 
 const MessageInput = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [text, setText] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
 
   const { sendMessage } = useChatStore();
+
+  const imageInputRef = useRef();
+  const showPickerRef = useRef();
+  const emojiRef = useRef();
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      setTimeout(() => {
+        if (
+          showPickerRef.current &&
+          emojiRef.current &&
+          !showPickerRef.current.contains(e.target) &&
+          !emojiRef.current.contains(e.target)
+        ) {
+          setShowPicker(false);
+        }
+      }, 0);
+    };
+
+    document.addEventListener("pointerdown", handleClick);
+
+    return () => {
+      document.removeEventListener("pointerdown", handleClick);
+    };
+  }, [showPicker]);
 
   const handleTextChange = (e) => {
     setText(e.target.value);
@@ -50,7 +77,9 @@ const MessageInput = () => {
     }
   };
 
-  const imageInputRef = useRef();
+  const handleEmojiClick = (emojiData) => {
+    setText((prevText) => prevText + emojiData.emoji);
+  };
 
   return (
     <div className="mx-8 mb-4 relative">
@@ -81,6 +110,14 @@ const MessageInput = () => {
 
         <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2 items-center justify-center ">
           <button
+            ref={showPickerRef}
+            className="hover:cursor-pointer"
+            onClick={() => setShowPicker(!showPicker)}
+            type="button"
+          >
+            <Smile />
+          </button>
+          <button
             type="button"
             onClick={() => {
               imageInputRef.current?.click();
@@ -94,6 +131,17 @@ const MessageInput = () => {
           </button>
         </div>
       </form>
+      <div className="absolute bottom-12 right-0">
+        {showPicker && (
+          <div ref={emojiRef}>
+            <EmojiPicker
+              reactionsDefaultOpen={true}
+              onReactionClick={handleEmojiClick}
+              onEmojiClick={handleEmojiClick}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
